@@ -34,3 +34,6 @@ exclude:
   - Gemfile.lock
 
 permalink: :title
+
+sass:
+  style: compressed
