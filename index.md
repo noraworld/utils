@@ -4,6 +4,7 @@
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: default
 title: Welcome to UtilsLab!
+top: true
 ---
 
 {% for post in site.posts %}
