@@ -7,3 +7,7 @@ title: Welcome to UtilsLab!
 ---
 
 <h1>Welcome to UtilsLab!</h1>
+
+{% for post in site.posts %}
+* [{{ post.title }}]({{ post.url }})
+{% endfor %}
