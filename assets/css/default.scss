@@ -1,12 +1,25 @@
 ---
 ---
 
-// Reset margin and padding
-* {
-  margin: 0;
-  padding: 0;
+body {
+  font-family: BlinkMacSystemFont;
 }
 
-h1 {
-  color: red;
+ul {
+  list-style: none;
+}
+
+.header {
+  margin: 30px 0 50px;
+  .back {
+    font-family: Menlo;
+  }
+}
+
+.container {
+  max-width: 900px;
+}
+
+.box {
+  margin: 10px 0;
 }
