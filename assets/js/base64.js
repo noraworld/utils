@@ -1,0 +1,5 @@
+$(function() {
+
+  $('#result').val('aaa');
+
+});
