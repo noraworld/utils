@@ -108,13 +108,6 @@ $(function() {
     splitter = new RegExp('.{1,' + 8 + '}', 'g');
     binaryArr = binaryStr.match(splitter);
 
-    // Delete zero padding
-    // ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111", "0000"]
-    // => ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111"]
-    if (binaryArr[binaryArr.length-1] !== 8) {
-      binaryArr.pop();
-    }
-
     // Convert binary to decimal and translate decoded characters
     // ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111"]
     // => 'ABCDEFG'
