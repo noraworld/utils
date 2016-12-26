@@ -5,7 +5,7 @@ permalink: about
 ---
 
 ## What this site is
-Simple JavaScript contents like utilities, games, etc. The contents will be added at any time.
+A utility and amusing JavaScript contents site like tools, algorithms, games, etc. The contents will be added at any time.
 
 ## About me
 I am a university student learning information science and engineering. I am interested in web.
