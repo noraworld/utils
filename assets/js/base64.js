@@ -5,26 +5,34 @@ $(function() {
   // Submit encode form to exec encoding
   $('#encode').on('submit', function(event) {
     event.preventDefault();
-    var result = encode($('#plain-value').val());
-    $('#result').val(result);
+    if ($('#plain-value').val() !== '') {
+      var result = encode($('#plain-value').val());
+      $('#result-value').val(result);
+    }
   });
 
   // Submit decode form to exec decoding
   $('#decode').on('submit', function() {
     event.preventDefault();
-    var result = decode($('#encoded-value').val());
-    $('#result').val(result);
+    if ($('#encoded-value').val() !== '') {
+      var result = decode($('#encoded-value').val());
+      $('#result-value').val(result);
+    }
+  });
+
+  // Submit result form to exec copy the result
+  $('#result').on('submit', function() {
+    event.preventDefault();
+    if ($('#result-value').val() !== '') {
+      $('#result-value').select();
+      document.execCommand('copy');
+      informCopied();
+    }
   });
 
   // Click result form to select all characters
-  $('#result').on('click', function() {
+  $('#result-value').on('click', function() {
     $(this).select();
-  });
-
-  // Click copy button to copy the result
-  $('#copy').on('click', function() {
-    $('#result').select();
-    document.execCommand('copy');
   });
 
 
@@ -112,6 +120,25 @@ $(function() {
     }
 
     return result;
+  }
+
+
+  var message = false;
+  var timerID;
+  function informCopied() {
+    if (message === false) {
+      $('#copy').after('<strong><div id="copy-inform" class="text-center text-success" style="margin-top:10px;">Copied!</div></strong>');
+      message = true;
+    }
+    else {
+      $('#copy-inform').remove();
+      clearTimeout(timerID);
+      $('#copy').after('<strong><div id="copy-inform" class="text-center text-success" style="margin-top:10px;">Copied!</div></strong>');
+    }
+    timerID = setTimeout(function() {
+      $('#copy-inform').remove();
+      message = false;
+    }, 1500);
   }
 
 
