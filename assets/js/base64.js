@@ -1,9 +1,18 @@
 $(function() {
 
-  // Submit form to exec encoding
+  'use strict';
+
+  // Submit encode form to exec encoding
   $('#encode').on('submit', function(event) {
     event.preventDefault();
-    var result = encode($('#source').val());
+    var result = encode($('#plain-value').val());
+    $('#result').val(result);
+  });
+
+  // Submit decode form to exec decoding
+  $('#decode').on('submit', function() {
+    event.preventDefault();
+    var result = decode($('#encoded-value').val());
     $('#result').val(result);
   });
 
@@ -57,6 +66,43 @@ $(function() {
     for (var i = 0; i < base64Arr.length; i++) {
       result += base64Arr[i];
     }
+
+    return result;
+  }
+
+  function decode(str) {
+    var result = '';
+    var binaryStr = '';
+    var splitter;
+    var decimal;
+    var binaryArr = [];
+
+    str = str.replace(/=/g, '');
+    console.log(str); // QUJDREVGRw
+
+    // splitter = new RegExp('.{1,' + 4 + '}', 'g');
+    // base64Arr = str.match(splitter);
+    // console.log(base64Arr); // ["QUJD", "REVG", "Rw"]
+
+    for (var i = 0; i < str.length; i++) {
+      binaryStr += convertBinary(str[i]);
+    }
+    console.log(binaryStr);  // 010000010100001001000011010001000100010101000110010001110000
+
+    splitter = new RegExp('.{1,' + 8 + '}', 'g');
+    binaryArr = binaryStr.match(splitter);
+    console.log(binaryArr);  // ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111", "0000"]
+
+    if (binaryArr[binaryArr.length-1] !== 8) {
+      binaryArr.pop();
+    }
+    console.log(binaryArr);  // ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111"]
+
+    for (var i = 0; i < binaryArr.length; i++) {
+      decimal = parseInt(binaryArr[i], 2);
+      result += String.fromCharCode(decimal);
+    }
+    console.log(result);  // ABCDEFG
 
     return result;
   }
@@ -128,6 +174,76 @@ $(function() {
       case '111101': return '9';  // 61
       case '111110': return '+';  // 62
       case '111111': return '/';  // 63
+    }
+  }
+
+  // Translate base64 character to binary
+  function convertBinary(base64char) {
+    switch (base64char) {
+      case 'A': return '000000';  //  0
+      case 'B': return '000001';  //  1
+      case 'C': return '000010';  //  2
+      case 'D': return '000011';  //  3
+      case 'E': return '000100';  //  4
+      case 'F': return '000101';  //  5
+      case 'G': return '000110';  //  6
+      case 'H': return '000111';  //  7
+      case 'I': return '001000';  //  8
+      case 'J': return '001001';  //  9
+      case 'K': return '001010';  // 10
+      case 'L': return '001011';  // 11
+      case 'M': return '001100';  // 12
+      case 'N': return '001101';  // 13
+      case 'O': return '001110';  // 14
+      case 'P': return '001111';  // 15
+      case 'Q': return '010000';  // 16
+      case 'R': return '010001';  // 17
+      case 'S': return '010010';  // 18
+      case 'T': return '010011';  // 19
+      case 'U': return '010100';  // 20
+      case 'V': return '010101';  // 21
+      case 'W': return '010110';  // 22
+      case 'X': return '010111';  // 23
+      case 'Y': return '011000';  // 24
+      case 'Z': return '011001';  // 25
+      case 'a': return '011010';  // 26
+      case 'b': return '011011';  // 27
+      case 'c': return '011100';  // 28
+      case 'd': return '011101';  // 29
+      case 'e': return '011110';  // 30
+      case 'f': return '011111';  // 31
+      case 'g': return '100000';  // 32
+      case 'h': return '100001';  // 33
+      case 'i': return '100010';  // 34
+      case 'j': return '100011';  // 35
+      case 'k': return '100100';  // 36
+      case 'l': return '100101';  // 37
+      case 'm': return '100110';  // 38
+      case 'n': return '100111';  // 39
+      case 'o': return '101000';  // 40
+      case 'p': return '101001';  // 41
+      case 'q': return '101010';  // 42
+      case 'r': return '101011';  // 43
+      case 's': return '101100';  // 44
+      case 't': return '101101';  // 45
+      case 'u': return '101110';  // 46
+      case 'v': return '101111';  // 47
+      case 'w': return '110000';  // 48
+      case 'x': return '110001';  // 49
+      case 'y': return '110010';  // 50
+      case 'z': return '110011';  // 51
+      case '0': return '110100';  // 52
+      case '1': return '110101';  // 53
+      case '2': return '110110';  // 54
+      case '3': return '110111';  // 55
+      case '4': return '111000';  // 56
+      case '5': return '111001';  // 57
+      case '6': return '111010';  // 58
+      case '7': return '111011';  // 59
+      case '8': return '111100';  // 60
+      case '9': return '111101';  // 61
+      case '+': return '111110';  // 62
+      case '/': return '111111';  // 63
     }
   }
 
