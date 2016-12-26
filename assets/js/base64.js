@@ -70,6 +70,7 @@ $(function() {
     return result;
   }
 
+  // Decode
   function decode(str) {
     var result = '';
     var binaryStr = '';
@@ -79,10 +80,6 @@ $(function() {
 
     str = str.replace(/=/g, '');
     console.log(str); // QUJDREVGRw
-
-    // splitter = new RegExp('.{1,' + 4 + '}', 'g');
-    // base64Arr = str.match(splitter);
-    // console.log(base64Arr); // ["QUJD", "REVG", "Rw"]
 
     for (var i = 0; i < str.length; i++) {
       binaryStr += convertBinary(str[i]);
