@@ -27,6 +27,7 @@ $(function() {
     document.execCommand('copy');
   });
 
+
   // Encode
   function encode(str) {
     var binary    = '';
@@ -55,7 +56,7 @@ $(function() {
       base64Str += convertBase64(binaryArr[i]);
     }
 
-    // Split binary into every four characters
+    // Split base64 string into every four characters
     splitter = new RegExp('.{1,' + 4 + '}', 'g');
     base64Arr = base64Str.match(splitter);
 
@@ -70,6 +71,7 @@ $(function() {
     return result;
   }
 
+
   // Decode
   function decode(str) {
     var result = '';
@@ -78,31 +80,40 @@ $(function() {
     var decimal;
     var binaryArr = [];
 
+    // Delete equal characters
+    // 'QUJDREVGRw==' => 'QUJDREVGRw'
     str = str.replace(/=/g, '');
-    console.log(str); // QUJDREVGRw
 
+    // Call convertBinary()
+    // 'QUJDREVGRw' => '010000010100001001000011010001000100010101000110010001110000'
     for (var i = 0; i < str.length; i++) {
       binaryStr += convertBinary(str[i]);
     }
-    console.log(binaryStr);  // 010000010100001001000011010001000100010101000110010001110000
 
+    // Split binary into every eight characters
+    // '010000010100001001000011010001000100010101000110010001110000'
+    // => ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111", "0000"]
     splitter = new RegExp('.{1,' + 8 + '}', 'g');
     binaryArr = binaryStr.match(splitter);
-    console.log(binaryArr);  // ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111", "0000"]
 
+    // Delete zero padding
+    // ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111", "0000"]
+    // => ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111"]
     if (binaryArr[binaryArr.length-1] !== 8) {
       binaryArr.pop();
     }
-    console.log(binaryArr);  // ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111"]
 
+    // Convert binary to decimal and translate decoded characters
+    // ["01000001", "01000010", "01000011", "01000100", "01000101", "01000110", "01000111"]
+    // => 'ABCDEFG'
     for (var i = 0; i < binaryArr.length; i++) {
       decimal = parseInt(binaryArr[i], 2);
       result += String.fromCharCode(decimal);
     }
-    console.log(result);  // ABCDEFG
 
     return result;
   }
+
 
   // Translate binary to base64 character
   function convertBase64(binary) {
@@ -173,6 +184,7 @@ $(function() {
       case '111111': return '/';  // 63
     }
   }
+
 
   // Translate base64 character to binary
   function convertBinary(base64char) {
