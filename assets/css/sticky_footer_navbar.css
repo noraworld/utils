@@ -10,11 +10,12 @@ body {
   bottom: 0;
   width: 100%;
   background-color: transparent;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans Regular';
   font-size: 10px;
 }
 .footer a {
-  font-weight: bold;
+  font-family: 'Open Sans Bold';
+  font-weight: normal;
   color: #3f2e2e;
 }
 
