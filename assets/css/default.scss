@@ -3,6 +3,7 @@
 
 body {
   font-family: BlinkMacSystemFont;
+  margin-top: 30px;
 }
 
 ul {
@@ -17,8 +18,17 @@ ul {
   }
 }
 
+.title {
+  font-family: Inconsolata;
+  margin-bottom: 30px;
+}
+
 .container {
   max-width: 900px;
+}
+
+.content {
+  margin: 0 30px;
 }
 
 .box {
