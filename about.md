@@ -1,6 +1,7 @@
 ---
 layout: post
 title: About
+description: About page of noraworld.io
 permalink: about
 ---
 
