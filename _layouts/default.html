@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>{{ page.title }}</title>
+  <title>{% if page.top %}{{ site.title }}{% else %}{{ page.title }}{% endif %}</title>
   <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/default.css">
 </head>
 <body>
   <div class="container">
 
-    <a class="github-ribbon" href="https://github.com/noraworld/noraworld.io" target="_blank">
+    <a class="github-ribbon" href="https://github.com/noraworld/noraworld.io" tabindex="-1">
       <img style="position:absolute;top:0;right:0;border:0;" src="/assets/img/fork_me_on_github.png" alt="Fork me on GitHub">
     </a>
 
@@ -20,14 +20,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="/" class="navbar-brand">noraworld.io</a>
+        <a href="/" class="navbar-brand" tabindex="-1">noraworld.io</a>
       </div>
 
       <div id="gnavi" class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/">Home</a></li>
-          <li><a href="/about">About</a></li>
-          <li><a href="https://github.com/noraworld" target="_blank">GitHub</a></li>
+          <li><a href="/" tabindex="-1">Home</a></li>
+          <li><a href="/about" tabindex="-1">About</a></li>
+          <li><a href="https://github.com/noraworld" target="_blank" tabindex="-1">GitHub</a></li>
+          <li><a href="https://github.com/noraworld/noraworld.io" tabindex="-1">Fork</a></li>
         </ul>
       </div>
     </nav>
