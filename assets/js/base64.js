@@ -48,6 +48,7 @@ $(function() {
     var result    = '';
     var splitter;
 
+    // For multi-byte code
     str = unescape(encodeURIComponent(str));
 
     // Translate original characters to binary
@@ -116,7 +117,21 @@ $(function() {
       result += String.fromCharCode(decimal);
     }
 
-    result = decodeURIComponent(escape(result));
+    // For multi-byte code
+    try {
+      result = decodeURIComponent(escape(result));
+      if ($('#decode-form-group').hasClass('has-error') === true) {
+        $('#decode-form-group').removeClass('has-error');
+        $('#error-value').remove();
+      }
+    }
+    catch (e) {
+      console.error('You probably mistake decoded values...');
+      if ($('#decode-form-group').hasClass('has-error') === false) {
+        $('#decode-form-group').addClass('has-error');
+        $('#encoded-value').after('<strong><span id="error-value" class="help-block">Error!</span></strong>');
+      }
+    }
 
     return result;
   }
