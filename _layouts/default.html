@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>{% if page.top %}{{ site.title }}{% else %}{{ page.title }}{% endif %}</title>
   <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/sticky_footer_navbar.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/default.css">
 </head>
 <body>
@@ -38,8 +39,13 @@
     <div class="content">
     {{ content }}
     </div>
-
   </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted text-center">Copyright &copy; 2016 <a href="/">{{ site.title }}</a>. All rights reserved.</p>
+    </div>
+  </footer>
 
   <script type="text/javascript" src="/assets/js/jquery.js"></script>
   <script type="text/javascript" src="/assets/js/bootstrap.min.js"></script>

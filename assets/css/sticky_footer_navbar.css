@@ -1,0 +1,27 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: transparent;
+  font-family: 'Open Sans';
+  font-size: 10px;
+}
+.footer a {
+  font-weight: bold;
+  color: #3f2e2e;
+}
+
+.container .text-muted {
+  margin: 0 0 15px;
+}
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
