@@ -126,10 +126,10 @@ $(function() {
       }
     }
     catch (e) {
-      console.error('You probably mistake decoded values...');
+      console.error('You probably mistake encoded value...');
       if ($('#decode-form-group').hasClass('has-error') === false) {
         $('#decode-form-group').addClass('has-error');
-        $('#encoded-value').after('<strong><span id="error-value" class="help-block">Error!</span></strong>');
+        $('#encoded-value').after('<strong><span id="error-value" class="help-block">Invalid encoded value!</span></strong>');
       }
     }
 
