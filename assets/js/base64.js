@@ -2,6 +2,8 @@ $(function() {
 
   'use strict';
 
+  console.info('Some thought you should use btoa() and atob() functions. But you should not say. That is just my interest.');
+
   // Submit encode form to exec encoding
   $('#encode').on('submit', function(event) {
     event.preventDefault();
@@ -45,6 +47,8 @@ $(function() {
     var base64Arr = [];
     var result    = '';
     var splitter;
+
+    str = unescape(encodeURIComponent(str));
 
     // Translate original characters to binary
     for (var i = 0; i < str.length; i++) {
@@ -118,6 +122,8 @@ $(function() {
       decimal = parseInt(binaryArr[i], 2);
       result += String.fromCharCode(decimal);
     }
+
+    result = decodeURIComponent(escape(result));
 
     return result;
   }
