@@ -1,6 +1,6 @@
 ---
 layout: default
-title: contents
+title: Contents
 top: true
 ---
 
