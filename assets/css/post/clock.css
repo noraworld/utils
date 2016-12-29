@@ -1,0 +1,15 @@
+#clock, #date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-box-align: center;
+  font-family: 'Open Sans Regular';
+}
+
+#clock {
+  font-size: 15vw;
+}
+
+#date {
+  font-size: 7vw;
+}
