@@ -1,7 +1,8 @@
-title: noraworld.io
+title: Utilities
 description: A utility and amusing JavaScript contents site.
 permalink: :title
 markdown: kramdown
+baseurl: /utils
 
 gems:
   - jekyll-feed

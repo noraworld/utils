@@ -1,7 +1,7 @@
 ---
 layout: post
 title: About
-description: About page of noraworld.io
+description: About page
 permalink: about
 ---
 
@@ -33,5 +33,5 @@ I am a university student learning information science and engineering. I am int
 
 ### Fork me on GitHub
 <ul>
-  <li><a href="https://github.com/noraworld/noraworld.io">noraworld/noraworld.io - GitHub</a></li>
+  <li><a href="https://github.com/noraworld{{ site.baseurl }}">noraworld{{ site.baseurl }} - GitHub</a></li>
 </ul>
