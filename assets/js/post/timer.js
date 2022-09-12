@@ -2,6 +2,7 @@
 
 const TIMEOUT_DELAY = 100
 var timeoutID = null
+var isInterval = false
 
 function show(startUnixTime, sessionHours, sessionMinutes, sessionSeconds) {
   let sessionTime = sessionHours * 3600 + sessionMinutes * 60 + sessionSeconds
@@ -17,19 +18,36 @@ function show(startUnixTime, sessionHours, sessionMinutes, sessionSeconds) {
   }
   else {
     if (document.querySelector('#sound-power').checked) {
-      playSound()
+      let soundElement = isInterval ? '#start-sound' : '#end-sound'
+      playSound(soundElement)
     }
+
+    toggleIntervalState()
 
     if (document.querySelector('#auto-start').checked) {
       if (validate()) {
-        timeoutID = setTimeout(
-          show,
-          TIMEOUT_DELAY,
-          getCurrentUnixTime(),
-          Number(document.querySelector('#hours').value),
-          Number(document.querySelector('#minutes').value),
-          Number(document.querySelector('#seconds').value)
-        )
+        if (document.querySelector('#interval').checked && isInterval) {
+          clearTimeout(timeoutID)
+
+          timeoutID = setTimeout(
+            show,
+            TIMEOUT_DELAY,
+            getCurrentUnixTime(),
+            Number(document.querySelector('#interval-hours').value),
+            Number(document.querySelector('#interval-minutes').value),
+            Number(document.querySelector('#interval-seconds').value)
+          )
+        }
+        else {
+          timeoutID = setTimeout(
+            show,
+            TIMEOUT_DELAY,
+            getCurrentUnixTime(),
+            Number(document.querySelector('#hours').value),
+            Number(document.querySelector('#minutes').value),
+            Number(document.querySelector('#seconds').value)
+          )
+        }
       }
     }
     else {
@@ -43,9 +61,25 @@ function getCurrentUnixTime() {
   return Math.floor(Date.now() / 1000)
 }
 
-function playSound() {
-  document.querySelector('#sound').currentTime = 0
-  document.querySelector('#sound').play()
+function playSound(element) {
+  document.querySelector(element).currentTime = 0
+  document.querySelector(element).play()
+}
+
+function toggleIntervalState() {
+  if (document.querySelector('#interval').checked) {
+    isInterval = !isInterval
+  }
+  else {
+    isInterval = false
+  }
+
+  if (isInterval) {
+    document.querySelector('#timer').classList.add('text-success')
+  }
+  else {
+    document.querySelector('#timer').classList.remove('text-success')
+  }
 }
 
 function validate() {
@@ -54,6 +88,10 @@ function validate() {
   let hours = document.querySelector('#hours')
   let minutes = document.querySelector('#minutes')
   let seconds = document.querySelector('#seconds')
+
+  let intervalHours = document.querySelector('#interval-hours')
+  let intervalMinutes = document.querySelector('#interval-minutes')
+  let intervalSeconds = document.querySelector('#interval-seconds')
 
   let hoursRegex = /^([0-9]|[0-9][0-9])$/
   let minutesRegex = /^([0-9]|[0-5][0-9])$/
@@ -67,11 +105,27 @@ function validate() {
     isValid = false
   }
 
+  if (hoursRegex.test(intervalHours.value)) {
+    intervalHours.classList.remove('is-invalid')
+  }
+  else {
+    intervalHours.classList.add('is-invalid')
+    isValid = false
+  }
+
   if (minutesRegex.test(minutes.value)) {
     minutes.classList.remove('is-invalid')
   }
   else {
     minutes.classList.add('is-invalid')
+    isValid = false
+  }
+
+  if (minutesRegex.test(intervalMinutes.value)) {
+    intervalMinutes.classList.remove('is-invalid')
+  }
+  else {
+    intervalMinutes.classList.add('is-invalid')
     isValid = false
   }
 
@@ -83,10 +137,34 @@ function validate() {
     isValid = false
   }
 
+  if (secondsRegex.test(intervalSeconds.value)) {
+    intervalSeconds.classList.remove('is-invalid')
+  }
+  else {
+    intervalSeconds.classList.add('is-invalid')
+    isValid = false
+  }
+
   return isValid
 }
 
+function intervalChecked() {
+  let interval = document.querySelector('#interval')
+  let intervalInput = document.querySelector('#interval-input')
+
+  interval.addEventListener('change', () => {
+    if (interval.checked) {
+      intervalInput.classList.remove('d-none')
+    }
+    else {
+      intervalInput.classList.add('d-none')
+    }
+  })
+}
+
 (function() {
+  intervalChecked()
+
   let startButton = document.querySelector('#start')
   let stopButton = document.querySelector('#stop')
   let resumeButton = document.querySelector('#resume')
@@ -99,12 +177,22 @@ function validate() {
 
       clearTimeout(timeoutID)
 
-      show(
-        getCurrentUnixTime(),
-        Number(document.querySelector('#hours').value),
-        Number(document.querySelector('#minutes').value),
-        Number(document.querySelector('#seconds').value)
-      )
+      if (document.querySelector('#interval').checked && isInterval) {
+        show(
+          getCurrentUnixTime(),
+          Number(document.querySelector('#interval-hours').value),
+          Number(document.querySelector('#interval-minutes').value),
+          Number(document.querySelector('#interval-seconds').value)
+        )
+      }
+      else {
+        show(
+          getCurrentUnixTime(),
+          Number(document.querySelector('#hours').value),
+          Number(document.querySelector('#minutes').value),
+          Number(document.querySelector('#seconds').value)
+        )
+      }
     }
   })
 
@@ -139,5 +227,7 @@ function validate() {
     clearTimeout(timeoutID)
 
     document.querySelector('#timer').textContent = '00:00:00'
+
+    isInterval = false
   })
 }())
