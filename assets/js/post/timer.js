@@ -188,6 +188,10 @@ function save(inputElements, checkboxElements) {
   for (let element of inputElements) {
     document.querySelector(`#${element}`).addEventListener('keyup', function() {
       document.cookie = `${this.id}=${this.value}; path=${COOKIE_PATH};`
+      console.log(`this.id = ${this.id}`)
+      console.log(`this.value = ${this.value}`)
+      console.log(`document.cookie = ${document.cookie}`)
+      console.log('')
     })
   }
 
