@@ -3,16 +3,17 @@
 const TIMEOUT_DELAY = 100
 var timeoutID = null
 
-function show(startUnixTime, sessionMinutes, sessionSeconds) {
-  let sessionTime = sessionMinutes * 60 + sessionSeconds
+function show(startUnixTime, sessionHours, sessionMinutes, sessionSeconds) {
+  let sessionTime = sessionHours * 3600 + sessionMinutes * 60 + sessionSeconds
   let elapsedTime = getCurrentUnixTime() - startUnixTime
-  let leftTimeMinutes = ('00' + Math.floor((sessionTime - elapsedTime) / 60)).slice(-2)
+  let leftTimeHours = ('00' + Math.floor((sessionTime - elapsedTime) / 3600)).slice(-2)
+  let leftTimeMinutes = ('00' + Math.floor((sessionTime - elapsedTime) / 60) % 60).slice(-2)
   let leftTimeSeconds = ('00' + (sessionTime - elapsedTime) % 60).slice(-2)
 
-  document.querySelector('#timer').textContent = `${leftTimeMinutes}:${leftTimeSeconds}`
+  document.querySelector('#timer').textContent = `${leftTimeHours}:${leftTimeMinutes}:${leftTimeSeconds}`
 
   if (sessionTime - elapsedTime > 0) {
-    timeoutID = setTimeout(show, TIMEOUT_DELAY, startUnixTime, sessionMinutes, sessionSeconds)
+    timeoutID = setTimeout(show, TIMEOUT_DELAY, startUnixTime, sessionHours, sessionMinutes, sessionSeconds)
   }
   else {
     if (document.querySelector('#sound-power').checked) {
@@ -25,6 +26,7 @@ function show(startUnixTime, sessionMinutes, sessionSeconds) {
           show,
           TIMEOUT_DELAY,
           getCurrentUnixTime(),
+          Number(document.querySelector('#hours').value),
           Number(document.querySelector('#minutes').value),
           Number(document.querySelector('#seconds').value)
         )
@@ -49,11 +51,21 @@ function playSound() {
 function validate() {
   let isValid = true
 
+  let hours = document.querySelector('#hours')
   let minutes = document.querySelector('#minutes')
   let seconds = document.querySelector('#seconds')
 
-  let minutesRegex = /^[0-9]+$/
+  let hoursRegex = /^([0-9]|[0-9][0-9])$/
+  let minutesRegex = /^([0-9]|[0-5][0-9])$/
   let secondsRegex = /^([0-9]|[0-5][0-9])$/
+
+  if (hoursRegex.test(hours.value)) {
+    hours.classList.remove('is-invalid')
+  }
+  else {
+    hours.classList.add('is-invalid')
+    isValid = false
+  }
 
   if (minutesRegex.test(minutes.value)) {
     minutes.classList.remove('is-invalid')
@@ -81,14 +93,15 @@ function validate() {
   let resetButton = document.querySelector('#reset')
 
   startButton.addEventListener('click', () => {
-    startButton.classList.add('d-none')
-    stopButton.classList.remove('d-none')
-
-    clearTimeout(timeoutID)
-
     if (validate()) {
+      startButton.classList.add('d-none')
+      stopButton.classList.remove('d-none')
+
+      clearTimeout(timeoutID)
+
       show(
         getCurrentUnixTime(),
+        Number(document.querySelector('#hours').value),
         Number(document.querySelector('#minutes').value),
         Number(document.querySelector('#seconds').value)
       )
@@ -103,16 +116,17 @@ function validate() {
   })
 
   resumeButton.addEventListener('click', () => {
-    resumeButton.classList.add('d-none')
-    stopButton.classList.remove('d-none')
-
-    clearTimeout(timeoutID)
-
     if (validate()) {
+      resumeButton.classList.add('d-none')
+      stopButton.classList.remove('d-none')
+
+      clearTimeout(timeoutID)
+
       show(
         getCurrentUnixTime(),
         Number(document.querySelector('#timer').textContent.split(':')[0]),
-        Number(document.querySelector('#timer').textContent.split(':')[1])
+        Number(document.querySelector('#timer').textContent.split(':')[1]),
+        Number(document.querySelector('#timer').textContent.split(':')[2])
       )
     }
   })
@@ -124,6 +138,6 @@ function validate() {
 
     clearTimeout(timeoutID)
 
-    document.querySelector('#timer').textContent = '00:00'
+    document.querySelector('#timer').textContent = '00:00:00'
   })
 }())
