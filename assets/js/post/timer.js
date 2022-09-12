@@ -1,6 +1,6 @@
 'use strict'
 
-const TIMEOUT_DELAY = 200
+const TIMEOUT_DELAY = 100
 var timeoutID = null
 
 function show(startUnixTime, sessionMinutes, sessionSeconds) {
@@ -20,7 +20,19 @@ function show(startUnixTime, sessionMinutes, sessionSeconds) {
     }
 
     if (document.querySelector('#auto-start').checked) {
-      timeoutID = setTimeout(show, TIMEOUT_DELAY, getCurrentUnixTime(), sessionMinutes, sessionSeconds)
+      if (validate()) {
+        timeoutID = setTimeout(
+          show,
+          TIMEOUT_DELAY,
+          getCurrentUnixTime(),
+          Number(document.querySelector('#minutes').value),
+          Number(document.querySelector('#seconds').value)
+        )
+      }
+    }
+    else {
+      document.querySelector('#stop').classList.add('d-none')
+      document.querySelector('#start').classList.remove('d-none')
     }
   }
 }
@@ -63,7 +75,15 @@ function validate() {
 }
 
 (function() {
-  document.querySelector('#start').addEventListener('click', () => {
+  let startButton = document.querySelector('#start')
+  let stopButton = document.querySelector('#stop')
+  let resumeButton = document.querySelector('#resume')
+  let resetButton = document.querySelector('#reset')
+
+  startButton.addEventListener('click', () => {
+    startButton.classList.add('d-none')
+    stopButton.classList.remove('d-none')
+
     clearTimeout(timeoutID)
 
     if (validate()) {
@@ -73,5 +93,37 @@ function validate() {
         Number(document.querySelector('#seconds').value)
       )
     }
+  })
+
+  stopButton.addEventListener('click', () => {
+    stopButton.classList.add('d-none')
+    resumeButton.classList.remove('d-none')
+
+    clearTimeout(timeoutID)
+  })
+
+  resumeButton.addEventListener('click', () => {
+    resumeButton.classList.add('d-none')
+    stopButton.classList.remove('d-none')
+
+    clearTimeout(timeoutID)
+
+    if (validate()) {
+      show(
+        getCurrentUnixTime(),
+        Number(document.querySelector('#timer').textContent.split(':')[0]),
+        Number(document.querySelector('#timer').textContent.split(':')[1])
+      )
+    }
+  })
+
+  resetButton.addEventListener('click', () => {
+    stopButton.classList.add('d-none')
+    resumeButton.classList.add('d-none')
+    startButton.classList.remove('d-none')
+
+    clearTimeout(timeoutID)
+
+    document.querySelector('#timer').textContent = '00:00'
   })
 }())
