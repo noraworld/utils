@@ -1,6 +1,7 @@
 'use strict'
 
 const TIMEOUT_DELAY = 100
+const COOKIE_PATH = '/utils'
 var timeoutID = null
 var isInterval = false
 
@@ -152,6 +153,13 @@ function intervalChecked() {
   let interval = document.querySelector('#interval')
   let intervalInput = document.querySelector('#interval-input')
 
+  if (interval.checked) {
+    intervalInput.classList.remove('d-none')
+  }
+  else {
+    intervalInput.classList.add('d-none')
+  }
+
   interval.addEventListener('change', () => {
     if (interval.checked) {
       intervalInput.classList.remove('d-none')
@@ -162,7 +170,63 @@ function intervalChecked() {
   })
 }
 
+function restore(inputElements, checkboxElements) {
+  for (let element of inputElements) {
+    let restoredValue = getCookie(element)
+    if (restoredValue) document.querySelector(`#${element}`).value = restoredValue
+  }
+
+  for (let element of checkboxElements) {
+    let restoredValue = getCookie(element)
+    if (restoredValue) {
+      document.querySelector(`#${element}`).checked = restoredValue === 'true' ? true : false
+    }
+  }
+}
+
+function save(inputElements, checkboxElements) {
+  for (let element of inputElements) {
+    document.querySelector(`#${element}`).addEventListener('keyup', function() {
+      document.cookie = `${this.id}=${this.value}; path=${COOKIE_PATH};`
+    })
+  }
+
+  for (let element of checkboxElements) {
+    document.querySelector(`#${element}`).addEventListener('change', function() {
+      console.log(this.checked)
+      document.cookie = `${this.id}=${this.checked}; path=${COOKIE_PATH};`
+    })
+  }
+}
+
+function getCookie(name) {
+  for (let cookie of document.cookie.split(';')) {
+    let key = cookie.trim().split('=')[0]
+    let value = cookie.trim().split('=')[1]
+
+    if (key === name) return value
+  }
+
+  return null
+}
+
 (function() {
+  let inputElements = [
+    'hours',
+    'minutes',
+    'seconds',
+    'interval-hours',
+    'interval-minutes',
+    'interval-seconds'
+  ]
+  let checkboxElements = [
+    'interval',
+    'auto-start',
+    'sound-power'
+  ]
+  restore(inputElements, checkboxElements)
+  save(inputElements, checkboxElements)
+
   intervalChecked()
 
   let startButton = document.querySelector('#start')
