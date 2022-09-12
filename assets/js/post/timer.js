@@ -229,5 +229,6 @@ function intervalChecked() {
     document.querySelector('#timer').textContent = '00:00:00'
 
     isInterval = false
+    document.querySelector('#timer').classList.remove('text-success')
   })
 }())
