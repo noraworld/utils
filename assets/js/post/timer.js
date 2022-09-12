@@ -193,7 +193,6 @@ function save(inputElements, checkboxElements) {
 
   for (let element of checkboxElements) {
     document.querySelector(`#${element}`).addEventListener('change', function() {
-      console.log(this.checked)
       document.cookie = `${this.id}=${this.checked}; path=${COOKIE_PATH};`
     })
   }
