@@ -17,6 +17,8 @@ exclude:
   - .ruby-version
   - .gitignore
   - .github
+  - .bundle
+  - vendor
 
 sass:
   style: compressed
