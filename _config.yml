@@ -4,7 +4,7 @@ permalink: :title
 markdown: kramdown
 baseurl: /utils
 
-gems:
+plugins:
   - jekyll-feed
   - jekyll-sitemap
 
