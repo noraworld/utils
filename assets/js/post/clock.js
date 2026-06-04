@@ -18,6 +18,7 @@ $(function() {
     updateTime();
     showClock();
     showDate();
+    updateTitle();
     var timer = setTimeout(tick, 200);
   }
 
@@ -32,11 +33,19 @@ $(function() {
   }
 
   function showClock() {
-    $('#clock').text(prepareFormat(hour) + ':' + prepareFormat(minute) + ':' + prepareFormat(second));
+    $('#clock').text(formatTime());
   }
 
   function showDate() {
     $('#date').text(day + ' ' + month + ' ' + date + ' ' + year);
+  }
+
+  function updateTitle() {
+    document.title = 'Clock ' + formatTime();
+  }
+
+  function formatTime() {
+    return prepareFormat(hour) + ':' + prepareFormat(minute) + ':' + prepareFormat(second);
   }
 
   function prepareFormat(str) {
