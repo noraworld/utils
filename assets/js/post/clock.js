@@ -41,7 +41,7 @@ $(function() {
   }
 
   function updateTitle() {
-    document.title = 'Clock ' + formatTime();
+    document.title = formatTime();
   }
 
   function formatTime() {
